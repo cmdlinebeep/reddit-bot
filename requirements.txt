@@ -1,0 +1,3 @@
+praw
+mailjet_rest
+#loguru
