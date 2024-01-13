@@ -35,7 +35,7 @@ def get_reddit():
 
 
 def post_comment(comment, url):
-    # Build the formatted Spaywall link
+    # Build the formatted paywall site link
     parse_url = urlparse(url.strip())
     url = parse_url.scheme + "://" + parse_url.netloc + parse_url.path  # URL normalized to strip anchors and params
     url = "https://www.YOURLINKHERE.com/" + url

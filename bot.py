@@ -1,6 +1,6 @@
 from praw.models import MoreComments
 
-from spaywall_utils import get_reddit, post_comment, send_email
+from bot_utils import get_reddit, post_comment, send_email
 
 import os
 import time
@@ -108,7 +108,7 @@ def main():
     except Exception as e:
         print("ERROR: Failed to get Reddit client instance.")
         print(e)
-        send_email(subject="Error in Spaywall Bot script!", msg="ERROR: Failed to get Reddit client instance.")
+        send_email(subject="Error in paywall bot script!", msg="ERROR: Failed to get Reddit client instance.")
         quit()
 
     # IMO this is confusing because Reddit refers to the "me" object which is actually the bot, not your own human Reddit handle.
@@ -156,7 +156,7 @@ def main():
         comment_match = remove_paywall_regex.match(comment.body.strip())
 
         # If group 2 not there, needs to use the link in the submission, e.g. comment.submission.
-        # If the comment includes group 2 url, then use that with Spaywall.
+        # If the comment includes group 2 url, then use that with paywall site.
 
         # Otherwise, if the comment just says "Remove paywall" and no additional text, then try to get the url from the submission.
         #   Check if submission is a self-post (post is text only).  If so, then search for first link within the post (like if they added commentary)
@@ -165,7 +165,7 @@ def main():
 
         # If matched the phrase at all
         # NOTE: In Real Life, my code never took this branch, though it was tested working in the 'testingground4bots' subreddit.
-        # I never advertised this feature to users because Spaywall can't *guarantee* it can find a paywall-free version of every
+        # I never advertised this feature to users because my paywall site can't *guarantee* it can find a paywall-free version of every
         # article, so I decided it was a bad user experience in the end to have this bot post anything on my behalf, and it never did.
         if comment_match:        
             # If matched the phrase
@@ -241,7 +241,7 @@ def main():
                 # If we get to here, send me an email so I can manually investigate the article on Reddit!
                 parent_submission = comment.submission
                 msg = f"See comment at: https://www.reddit.com{comment.permalink}    Parent post url at: https://www.reddit.com{parent_submission.permalink}"
-                subject = "Spaywall bot detected paywall word in comment"
+                subject = "Paywall bot detected paywall word in comment"
                 send_email(subject=subject, msg=msg)
 
             # Move on to next comment
@@ -259,7 +259,7 @@ if __name__ == "__main__":
         if ("403" in str(e)) or ("404" in str(e)) or ("502" in str(e)) or ("503" in str(e)) or ("500" in str(e)):
             print(f"ERROR: {e}")
         else:
-            send_email(subject="Error in Spaywall Bot script!", msg=f"ERROR: {e}")
+            send_email(subject="Error in paywall bot script!", msg=f"ERROR: {e}")
 
         # quit either way, DigitalOcean will restart it automatically
         quit()

@@ -1,1 +1,1 @@
-worker: python spaywall_bot.py
+worker: python bot.py
